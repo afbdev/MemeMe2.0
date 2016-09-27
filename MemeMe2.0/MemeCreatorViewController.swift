@@ -28,7 +28,6 @@ class MemeCreatorViewController: UIViewController, UIImagePickerControllerDelega
     
     @IBAction func cancelMeme(_ sender: AnyObject) {
         self.presentingViewController?.dismiss(animated: true, completion: nil)
-        meme = nil
     }
     
 
@@ -48,14 +47,9 @@ class MemeCreatorViewController: UIViewController, UIImagePickerControllerDelega
         self.memes = appDelegate.memes
 
         if meme != nil {
-            cancelButton.isEnabled = true
             shareButton.isEnabled = true
-        } else if (memes.count > 0) {
-            cancelButton.isEnabled = true
-            shareButton.isEnabled = false
         } else {
             shareButton.isEnabled = false
-            cancelButton.isEnabled = false
         }
     }
     
@@ -144,7 +138,9 @@ class MemeCreatorViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
+        if textField.text == "TOP" || textField.text == "BOTTOM" {
+            textField.text = ""
+        }
     }
     
     
@@ -163,13 +159,13 @@ class MemeCreatorViewController: UIViewController, UIImagePickerControllerDelega
     func unsubscribeFromKeyboardNotifications() {
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     // Moving frame up when keyboard is used
     func keyboardWillShow(_ notification: Notification) {
         if bottomTextField.isFirstResponder {
-            self.view.frame.origin.y -= getKeyboardHeight(notification)
+            self.view.frame.origin.y = getKeyboardHeight(notification) * (-1)
         }
     }
     

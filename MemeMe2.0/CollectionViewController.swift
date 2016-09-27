@@ -24,6 +24,9 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        collection.delegate = self
+        collection.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,9 +35,8 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         memes = appDelegate.memes
         
-        collection.delegate = self
-        collection.dataSource = self
         collection.reloadData()
+        tabBarController?.tabBar.isHidden = false
     }
     
 
@@ -67,7 +69,7 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         
         let controller = self.storyboard!.instantiateViewController(withIdentifier: "MemedImageViewController") as! MemedImageViewController
         controller.meme = self.memes[indexPath.item]
-        self.present(controller, animated: true, completion: nil)
+        navigationController?.pushViewController(controller, animated: true)
         
     }
     

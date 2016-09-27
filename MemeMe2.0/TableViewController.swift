@@ -26,10 +26,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if memes == nil {
-            let controller = self.storyboard?.instantiateViewController(withIdentifier: "MemeCreatorViewController") as! MemeCreatorViewController
-            self.present(controller, animated: true, completion: nil)
-        }
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,10 +36,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.memes = appDelegate.memes
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        
         tableView.reloadData()
+        tabBarController?.tabBar.isHidden = false
     }
     
     
@@ -69,7 +65,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         let controller = self.storyboard!.instantiateViewController(withIdentifier: "MemedImageViewController") as! MemedImageViewController
         controller.meme = self.memes[indexPath.row]
-        self.present(controller, animated: true, completion: nil)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
 

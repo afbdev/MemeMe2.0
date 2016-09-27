@@ -15,12 +15,8 @@ class MemedImageViewController: UIViewController {
     
     @IBOutlet var imageView: UIImageView!
     
-    @IBAction func backToPreviousVC(_ sender: AnyObject) {
-        
-        self.presentingViewController?.dismiss(animated: true, completion: nil)
-    }
 
-    @IBAction func editMeme(_ sender: AnyObject) {
+    func editMeme() {
         
         let controller = self.storyboard?.instantiateViewController(withIdentifier: "MemeCreatorViewController") as! MemeCreatorViewController
         controller.meme = self.meme
@@ -33,7 +29,10 @@ class MemedImageViewController: UIViewController {
         super.viewDidLoad()
         
         imageView.image = meme.memedImage
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: "editMeme")
+        tabBarController?.tabBar.isHidden = true
     }
+    
 
     
 }
